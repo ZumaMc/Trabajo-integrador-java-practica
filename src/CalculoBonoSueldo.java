@@ -80,8 +80,11 @@ public class CalculoBonoSueldo {
         bonoCalculado[0][2] = "Haberes";
         bonoCalculado[0][3] = "Deducciones";
         System.out.println("Ingrese los Haberes del Empleado");
+        int contador= 1;
+        int contadorHaberes=0;
+
         while (true) {
-            System.out.println("Ingrese el código del ítem");
+            System.out.println("Ingrese el código del ítem , para salir ingrese 000" );
             int codigo = sc.nextInt();
             if (calculo.verificarCodigo(codigo)) {
                 String[] itemEncontrado = calculo.buscarItemEnHaberes(String.valueOf(codigo));
@@ -89,16 +92,31 @@ public class CalculoBonoSueldo {
                     System.out.println("item encontrado");
                     System.out.println("codigo " + itemEncontrado[0]);
                     System.out.println("denominacion " + itemEncontrado[1]);
-                    System.out.println("valor " + itemEncontrado[2]);
+                    contadorHaberes++;
+                    for (int x=0;x<3;x++){
+                        bonoCalculado [contador] [x] = itemEncontrado[x];
+                    }
+                    if (bonoCalculado[contador][2]=="9"){
+                        System.out.println("valor " + itemEncontrado[2] + " %");
+
+                        bonoCalculado[contador][2]= String.valueOf(empleado.getSueldoBasico()*1.09);
+                    }
+                    else {
+                        System.out.println("Ingrese el valor correspondiente");
+                        int valor = sc.nextInt();
+                        bonoCalculado[contador][2]=String.valueOf(valor);
+                        System.out.println("Valor ingresado correctamente");
+                    }
+                   calculo.codigosIngresados.add(Integer.valueOf(bonoCalculado[contador][0]));
+                } else if (codigo == 0 && contadorHaberes != 0) {
+                    System.out.println("Carga de haberes finalizada");
                     break;
-                }
-                else{
-                    System.out.println("El item " + codigo+ " No fue encontrado");
+                } else{
+                    System.out.println("El código ingresado es incorrecto");
+                    System.out.println("Por favor, ingrese un nuevo codigo valido");
                 }
 
             }
-
-
         }
     }
 }
