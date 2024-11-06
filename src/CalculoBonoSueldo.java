@@ -20,6 +20,7 @@ public class CalculoBonoSueldo {
 
     List<Integer> codigosIngresados = new ArrayList<>();
 
+
     public boolean verificarCodigo(int codigo) {
         if (codigosIngresados.contains(codigo)) {
             System.out.println("El código ya ha sido cargado, ingrese otro código.");
@@ -33,6 +34,15 @@ public class CalculoBonoSueldo {
 
     public String[] buscarItemEnHaberes(String codigo) {
         for (String[] item : haberes) {
+            if (item[0].equals(codigo)) {
+                return item;
+            }
+        }
+        return null;
+    }
+
+    public String[] buscarItemEnDeducciones(String codigo) {
+        for (String[] item : deducciones) {
             if (item[0].equals(codigo)) {
                 return item;
             }
@@ -80,11 +90,9 @@ public class CalculoBonoSueldo {
         bonoCalculado[0][2] = "Haberes";
         bonoCalculado[0][3] = "Deducciones";
         System.out.println("Ingrese los Haberes del Empleado");
-        int contador= 1;
-        int contadorHaberes=0;
-
+        int contadorHaberes = 0;
         while (true) {
-            System.out.println("Ingrese el código del ítem , para salir ingrese 000" );
+            System.out.println("Ingrese el código del ítem , para salir ingrese 000");
             int codigo = sc.nextInt();
             if (calculo.verificarCodigo(codigo)) {
                 String[] itemEncontrado = calculo.buscarItemEnHaberes(String.valueOf(codigo));
@@ -93,29 +101,51 @@ public class CalculoBonoSueldo {
                     System.out.println("codigo " + itemEncontrado[0]);
                     System.out.println("denominacion " + itemEncontrado[1]);
                     contadorHaberes++;
-                    for (int x=0;x<3;x++){
-                        bonoCalculado [contador] [x] = itemEncontrado[x];
+                    for (int x = 0; x < 3; x++) {
+                        bonoCalculado[contadorHaberes][x] = itemEncontrado[x];
                     }
-                    if (bonoCalculado[contador][2]=="9"){
+                    if (bonoCalculado[contadorHaberes][2] == "9") {
                         System.out.println("valor " + itemEncontrado[2] + " %");
 
-                        bonoCalculado[contador][2]= String.valueOf(empleado.getSueldoBasico()*1.09);
-                    }
-                    else {
+                        bonoCalculado[contadorHaberes][2] = String.valueOf(empleado.getSueldoBasico() * 0.09);
+                    } else {
                         System.out.println("Ingrese el valor correspondiente");
                         int valor = sc.nextInt();
-                        bonoCalculado[contador][2]=String.valueOf(valor);
+                        bonoCalculado[contadorHaberes][2] = String.valueOf(valor);
                         System.out.println("Valor ingresado correctamente");
                     }
-                   calculo.codigosIngresados.add(Integer.valueOf(bonoCalculado[contador][0]));
                 } else if (codigo == 0 && contadorHaberes != 0) {
                     System.out.println("Carga de haberes finalizada");
                     break;
-                } else{
+                } else {
                     System.out.println("El código ingresado es incorrecto");
                     System.out.println("Por favor, ingrese un nuevo codigo valido");
                 }
 
+            }
+        }
+        int contadorDeducciones = contadorHaberes;
+        System.out.println("Ingrese las deducciones del empleado");
+        while (true) {
+            System.out.println("Ingrese el código del ítem");
+            int codigo = sc.nextInt();
+            if (calculo.verificarCodigo(codigo)) {
+                String[] itemEncontrado = calculo.buscarItemEnDeducciones(String.valueOf(codigo));
+                if (itemEncontrado != null) {
+                    System.out.println("item encontrado");
+                    System.out.println("codigo " + itemEncontrado[0]);
+                    System.out.println("denominacion " + itemEncontrado[1]);
+                    contadorDeducciones++;
+                    for (int x = 0; x < 4; x++) {
+                        if (x==3){
+                            continue;}
+                        bonoCalculado[contadorDeducciones][x] = itemEncontrado[x];
+                    }
+                    if (itemEncontrado[2] != "M"){
+                      bonoCalculado[contadorDeducciones][2] empleado.getSueldoBasico()* Integer.parseInt(itemEncontrado[2])
+                    }
+
+                }
             }
         }
     }
