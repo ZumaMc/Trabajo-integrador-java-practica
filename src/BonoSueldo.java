@@ -32,8 +32,8 @@ public class BonoSueldo {
         return montoLiquidacion;
     }
 
-    public void setMontoLiquidacion(double montoLiquidacion) {
-        this.montoLiquidacion = montoLiquidacion;
+    public void setMontoLiquidacion(double monto) {
+        this.montoLiquidacion = monto;
     }
 
 }

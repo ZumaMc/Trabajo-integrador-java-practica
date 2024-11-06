@@ -54,4 +54,8 @@ public class Empleado {
     public void setSueldoBasico(double sueldoBasico) {
         this.sueldoBasico = sueldoBasico;
     }
+    public double calcularAntiguedad(){
+        int antiguedad= 2024-getAnioIngreso();
+        return sueldoBasico*0.02*antiguedad;
+    }
 }

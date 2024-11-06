@@ -83,7 +83,7 @@ public class CalculoBonoSueldo {
         bono.setAnioLiquidacion(AnioLiquidacion);
         System.out.println("Ingrese su sueldo basico");
         empleado.sueldoBasico = sc.nextInt();
-        int montoantiguedad = (2024 - empleado.getAnioIngreso()) * 2;
+        double montoantiguedad =empleado.calcularAntiguedad();
         String[][] bonoCalculado = new String[10][4];
         bonoCalculado[0][0] = "Codigo Item";
         bonoCalculado[0][1] = "Denominacion";
@@ -171,5 +171,16 @@ public class CalculoBonoSueldo {
                 }
             }
         }
+        int sumaHaberes=0;
+        for (int x=1; x<contadorHaberes;x++){
+            sumaHaberes+=Integer.parseInt(bonoCalculado[x][3]);
+        }
+        int sumaDeducciones=0;
+        for (int x=contadorHaberes; x<contadorDeducciones;x++){
+            sumaHaberes+=Integer.parseInt(bonoCalculado[x][4]);
+        }
+        bono.setMontoLiquidacion(empleado.getSueldoBasico()+montoantiguedad+sumaHaberes-sumaDeducciones);
+        double montoliquidar= bono.getMontoLiquidacion();
+        System.out.println("El monto a liquidar es " + montoliquidar);
     }
 }
