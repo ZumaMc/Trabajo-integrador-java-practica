@@ -94,6 +94,13 @@ public class CalculoBonoSueldo {
         while (true) {
             System.out.println("Ingrese el código del ítem , para salir ingrese 000");
             int codigo = sc.nextInt();
+            if (codigo==0 && contadorHaberes==0){
+                System.out.println("Debe ingresar al menos una deduccion");
+                continue;
+            }
+            else if (codigo ==0 && contadorHaberes!=0){
+                break;
+            }
             if (calculo.verificarCodigo(codigo)) {
                 String[] itemEncontrado = calculo.buscarItemEnHaberes(String.valueOf(codigo));
                 if (itemEncontrado != null) {
@@ -124,11 +131,18 @@ public class CalculoBonoSueldo {
 
             }
         }
-        int contadorDeducciones = contadorHaberes;
+        int contadorDeducciones = 0;
         System.out.println("Ingrese las deducciones del empleado");
         while (true) {
             System.out.println("Ingrese el código del ítem");
             int codigo = sc.nextInt();
+            if (codigo==0 && contadorDeducciones==0){
+                System.out.println("Debe ingresar al menos una deduccion");
+                continue;
+            }
+            else if (codigo ==0 && contadorDeducciones!=0){
+                break;
+            }
             if (calculo.verificarCodigo(codigo)) {
                 String[] itemEncontrado = calculo.buscarItemEnDeducciones(String.valueOf(codigo));
                 if (itemEncontrado != null) {
@@ -146,7 +160,7 @@ public class CalculoBonoSueldo {
                             bonoCalculado[contadorDeducciones][x] = itemEncontrado[x-1];
                         }
                     }
-                    if (!itemEncontrado[3].equals("M")){
+                    if (!itemEncontrado[2].equals("M")){
                         int calculoDeduccion= Integer.parseInt(bonoCalculado[contadorDeducciones][3]);
                         bonoCalculado[contadorDeducciones][3]= String.valueOf((empleado.getSueldoBasico()*calculoDeduccion)/100);
 
@@ -157,11 +171,7 @@ public class CalculoBonoSueldo {
                         bonoCalculado[contadorDeducciones][3] = String.valueOf(valor);
                         System.out.println("Valor ingresado correctamente");
                     }
-                    }
-                else if (codigo == 0 && contadorDeducciones==contadorHaberes) {
-                    System.out.println("Carga de deducciones finalizada");
-                    break;}
-
+                }
                 else {
                     System.out.println("El código ingresado es incorrecto");
                     System.out.println("Por favor, ingrese un nuevo codigo valido");
@@ -180,7 +190,10 @@ public class CalculoBonoSueldo {
             sumaHaberes+=Integer.parseInt(bonoCalculado[x][4]);
         }
         bono.setMontoLiquidacion(empleado.getSueldoBasico()+montoantiguedad+sumaHaberes-sumaDeducciones);
-        double montoliquidar= bono.getMontoLiquidacion();
-        System.out.println("El monto a liquidar es " + montoliquidar);
+        for (int x=0;x<10;x++){
+            for (int j=0;j<4;j++)
+            System.out.print(bonoCalculado[x][j] + " ");
+        }
+        System.out.println();
     }
 }
