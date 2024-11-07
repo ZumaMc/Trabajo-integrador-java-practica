@@ -3,7 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 public class CalculoBonoSueldo {
     static ArrayList<Empleado> listaEmpleados = new ArrayList<>();
-    static ArrayList<String[][]> listaBonos = new ArrayList<>();
+    static ArrayList<BonoSueldo> listaBonos = new ArrayList<BonoSueldo>();
     String[][] haberes = {
             {"100", "Presentismo", "9"},
             {"101", "Titulo Profesional", "9"},
@@ -220,6 +220,7 @@ public class CalculoBonoSueldo {
 
 
         listaEmpleados.add(empleado);
+        listaBonos.add(bono);
     }
 
 
