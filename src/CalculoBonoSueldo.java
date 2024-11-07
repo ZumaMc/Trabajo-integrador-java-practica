@@ -2,6 +2,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 public class CalculoBonoSueldo {
+    static ArrayList<Empleado> listaEmpleados = new ArrayList<>();
+    static ArrayList<String[][]> listaBonos = new ArrayList<>();
     String[][] haberes = {
             {"100", "Presentismo", "9"},
             {"101", "Titulo Profesional", "9"},
@@ -62,11 +64,13 @@ public class CalculoBonoSueldo {
     }
 
 
-    public static void main(String[] args) {
+    public static void bonoSueldo(){
+
         Scanner sc = new Scanner(System.in);
         Empleado empleado = new Empleado();
         BonoSueldo bono = new BonoSueldo();
         CalculoBonoSueldo calculo = new CalculoBonoSueldo();
+
         System.out.println("Ingrese su nombre");
         empleado.nombreEmpleado = sc.nextLine();
         System.out.println("Ingrese su cuil");
@@ -209,5 +213,37 @@ public class CalculoBonoSueldo {
         }
         bono.setMontoLiquidacion(empleado.getSueldoBasico()+montoantiguedad+sumaHaberes-sumaDeducciones);
         System.out.println("El monto a liquidar es " + bono.getMontoLiquidacion());
+
+        float subtotalDeducciones = sumaDeducciones;
+        float subtotalHaberes = sumaHaberes;
+        double NETO = bono.getMontoLiquidacion();
+
+
+        listaEmpleados.add(empleado);
+    }
+
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        Empleado empleado = new Empleado();
+        System.out.println("Cree un bono de sueldo");
+        while (true){
+            CalculoBonoSueldo.bonoSueldo();
+            System.out.println("Desea cargar otro bono? Ingrese no si desea salir");
+            String respuesta = sc.nextLine();
+            if (respuesta.equalsIgnoreCase("no")){
+                break;
+            }
+        }
+
+        System.out.println("Todos los bonos generados:");
+        for (Empleado emp : listaEmpleados) {
+            System.out.println("Nombre: " + emp.getNombreEmpleado());
+            System.out.println("Cuil: " + emp.getCuil());
+            System.out.println("Sueldo basico: " + emp.getSueldoBasico() + "\t" + "\t" + "\t" + "Año de ingreso: " + emp.getAnioIngreso());
+
+        }
+
     }
 }
+
